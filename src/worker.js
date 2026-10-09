@@ -937,9 +937,8 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     leaderboardTitle.textContent = isRecording ? "Kills leaderboard for CO-OWNER!" : "Total Lifesteal Kills";
     panelHeading.textContent = isRecording ? "Standings — new kills since recording started" : "Standings — all-time";
     leaderboardSubtitle.textContent = isRecording
-      ? "Check your kills here, and on October 24, 6 PM Eastern time, The #1 New kills will get co owner for a month."
-      : "Please note the co-owner is strictly for gems and if you kick anyone your permissions will be removed.";
-      "Refreshes roughly once a minute, or reload to refresh."
+      ? "Check your kills here, and on October 24, 6 PM Eastern time, The #1 new kills will get co owner for a month."
+      : "Refreshes roughly once a minute, or reload to refresh.";
     recordBtn.textContent = isRecording ? "Stop Recording" : "Start Recording";
   }
 
