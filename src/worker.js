@@ -29,12 +29,18 @@ const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
 // ---------- small helpers ----------
 
 function json(data, init = {}) {
+  // Build headers with a real Headers instance so entries from a Headers
+  // object passed in init.headers (e.g. one holding set-cookie, which can
+  // have multiple values) are preserved. Spreading a Headers instance with
+  // {...headers} silently produces {} since its entries aren't own
+  // enumerable properties — that was dropping the login/logout cookie.
+  const headers = new Headers(init.headers || {});
+  if (!headers.has("content-type")) {
+    headers.set("content-type", "application/json; charset=utf-8");
+  }
   return new Response(JSON.stringify(data), {
     ...init,
-    headers: {
-      "content-type": "application/json; charset=utf-8",
-      ...(init.headers || {}),
-    },
+    headers,
   });
 }
 
