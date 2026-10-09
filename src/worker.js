@@ -404,7 +404,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Wolf Clan — Lifesteal Leaderboard</title>
+<title>Wolf Clan</title>
 <style>
   :root {
     --bg: #ffffff;
@@ -771,8 +771,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     </div>
 
     <span id="statusPill" class="status-pill">
-      <span class="status-dot"></span>
-      <span id="statusLabel">Regular mode</span>
+      <span id="statusLabel">All time</span>
     </span>
 
     <div id="ownerBar" class="owner-bar hidden">
@@ -786,7 +785,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
 </header>
 
 <main>
-  <h1 id="leaderboardTitle">Total Lifesteal Kills</h1>
+  <h1 id="leaderboardTitle">Lifesteal Kills</h1>
   <p class="subtitle" id="leaderboardSubtitle">Updated automatically from ArchMC. Refreshes roughly once a minute.</p>
   <p class="clan-total" id="clanTotal"></p>
 
@@ -935,11 +934,12 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     isRecording = mode === "recording";
     statusPill.classList.toggle("recording", isRecording);
     statusLabel.textContent = isRecording ? "Recording" : "Regular mode";
-    leaderboardTitle.textContent = isRecording ? "New Kills (Recording)" : "Total Lifesteal Kills";
+    leaderboardTitle.textContent = isRecording ? "Kills leaderboard for CO-OWNER!" : "Total Lifesteal Kills";
     panelHeading.textContent = isRecording ? "Standings — new kills since recording started" : "Standings — all-time";
     leaderboardSubtitle.textContent = isRecording
-      ? "Recording in progress. Showing kills gained since the owner started recording."
-      : "Updated automatically from ArchMC. Refreshes roughly once a minute.";
+      ? "Check your kills here, and on October 24, 6 PM Eastern time, The #1 New kills will get co owner for a month."
+      : "Please note the co-owner is strictly for gems and if you kick anyone your permissions will be removed.";
+      "Refreshes roughly once a minute, or reload to refresh."
     recordBtn.textContent = isRecording ? "Stop Recording" : "Start Recording";
   }
 
