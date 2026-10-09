@@ -407,17 +407,24 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
 <title>Wolf Clan — Lifesteal Leaderboard</title>
 <style>
   :root {
-    --bg: #0b0d10;
-    --bg-elevated: #14171b;
-    --border: #23262b;
+    --bg: #ffffff;
+    --bg-elevated: #ffffff;
+    --border: #d9dadc;
+    --text: #1a1b1e;
+    --text-dim: #6b6e73;
+    --accent: #3b5bdb;
+    --danger: #c23b52;
+    --bar-bg: #ececed;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #121314;
+    --bg-elevated: #121314;
+    --border: #2d2f32;
     --text: #e8e9eb;
-    --text-dim: #8b9099;
-    --accent: #5b8cff;
-    --accent-dim: #2a3a66;
-    --danger: #e0556f;
-    --success: #3fbf7f;
-    --bar-grad-start: #5b8cff;
-    --bar-grad-end: #8f6bff;
+    --text-dim: #93969b;
+    --danger: #e0657a;
+    --bar-bg: #1e1f21;
   }
 
   * { box-sizing: border-box; }
@@ -425,7 +432,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
-    background: radial-gradient(circle at top, #11141a 0%, var(--bg) 60%);
+    background: var(--bg);
     color: var(--text);
     min-height: 100vh;
   }
@@ -434,40 +441,24 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 28px;
+    padding: 18px 28px;
     border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
   .brand {
     display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .brand-mark {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, var(--bar-grad-start), var(--bar-grad-end));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 15px;
-  }
-
-  .brand-text {
-    display: flex;
     flex-direction: column;
-    line-height: 1.15;
+    line-height: 1.2;
   }
 
-  .brand-text strong {
+  .brand strong {
     font-size: 16px;
-    letter-spacing: 0.2px;
+    font-weight: 600;
   }
 
-  .brand-text span {
+  .brand span {
     font-size: 12px;
     color: var(--text-dim);
   }
@@ -478,36 +469,61 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     gap: 6px;
     font-size: 12px;
     padding: 5px 10px;
-    border-radius: 999px;
     border: 1px solid var(--border);
     color: var(--text-dim);
     margin-right: 10px;
   }
 
   .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
+    width: 6px;
+    height: 6px;
     background: var(--text-dim);
   }
 
   .status-pill.recording .status-dot {
     background: var(--danger);
-    box-shadow: 0 0 0 0 rgba(224, 85, 111, 0.6);
-    animation: pulse 1.6s infinite;
   }
 
-  .status-pill.recording { color: var(--danger); border-color: rgba(224,85,111,0.4); }
-
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(224, 85, 111, 0.5); }
-    70% { box-shadow: 0 0 0 6px rgba(224, 85, 111, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(224, 85, 111, 0); }
-  }
+  .status-pill.recording { color: var(--danger); border-color: var(--danger); }
 
   .header-actions {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .theme-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 4px;
+    padding-right: 12px;
+    border-right: 1px solid var(--border);
+  }
+
+  .swatch-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .swatch.active {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+  }
+
+  .mode-toggle {
+    font-size: 12px;
+    padding: 6px 10px;
   }
 
   button {
@@ -517,24 +533,22 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     background: var(--bg-elevated);
     color: var(--text);
     padding: 9px 16px;
-    border-radius: 8px;
     font-size: 13px;
     font-weight: 600;
-    transition: border-color 0.15s, background 0.15s, transform 0.08s;
+    transition: border-color 0.15s, background 0.15s;
   }
 
-  button:hover { border-color: #3a3f47; }
-  button:active { transform: scale(0.98); }
+  button:hover { border-color: var(--text-dim); }
 
   .btn-accent {
-    background: linear-gradient(135deg, var(--bar-grad-start), var(--bar-grad-end));
-    border: none;
-    color: white;
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
   }
 
   .btn-danger {
     background: transparent;
-    border-color: rgba(224,85,111,0.4);
+    border-color: var(--danger);
     color: var(--danger);
   }
 
@@ -558,7 +572,6 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
   .panel {
     background: var(--bg-elevated);
     border: 1px solid var(--border);
-    border-radius: 14px;
     padding: 22px;
     margin-bottom: 20px;
   }
@@ -573,7 +586,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
 
   .bar-row {
     display: grid;
-    grid-template-columns: 140px 1fr 56px;
+    grid-template-columns: 140px 1fr 96px;
     align-items: center;
     gap: 12px;
     margin-bottom: 12px;
@@ -595,16 +608,14 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
 
   .bar-track {
     position: relative;
-    height: 22px;
-    background: #1b1e23;
-    border-radius: 6px;
+    height: 20px;
+    background: var(--bar-bg);
     overflow: hidden;
   }
 
   .bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--bar-grad-start), var(--bar-grad-end));
-    border-radius: 6px;
+    background: var(--accent);
     transition: width 0.5s ease;
     min-width: 2px;
   }
@@ -613,6 +624,24 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     font-size: 13px;
     font-weight: 700;
     text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .bar-share {
+    font-weight: 400;
+    color: var(--text-dim);
+    font-size: 11px;
+  }
+
+  .clan-total {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin: -18px 0 20px;
+  }
+
+  .clan-total strong {
+    color: var(--text);
     font-variant-numeric: tabular-nums;
   }
 
@@ -627,7 +656,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
   .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(5,6,8,0.6);
+    background: rgba(0,0,0,0.4);
     display: none;
     align-items: center;
     justify-content: center;
@@ -639,7 +668,6 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
   .modal {
     background: var(--bg-elevated);
     border: 1px solid var(--border);
-    border-radius: 14px;
     width: 92%;
     max-width: 420px;
     padding: 24px;
@@ -648,14 +676,14 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
   .modal h3 {
     margin: 0 0 16px;
     font-size: 16px;
+    font-weight: 600;
   }
 
   .modal input {
     width: 100%;
     padding: 10px 12px;
-    border-radius: 8px;
     border: 1px solid var(--border);
-    background: #0f1115;
+    background: var(--bg);
     color: var(--text);
     font-size: 14px;
     margin-bottom: 10px;
@@ -690,7 +718,6 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     justify-content: space-between;
     padding: 8px 10px;
     border: 1px solid var(--border);
-    border-radius: 8px;
     font-size: 13px;
   }
 
@@ -708,9 +735,8 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
   .add-member-row input {
     flex: 1;
     padding: 9px 12px;
-    border-radius: 8px;
     border: 1px solid var(--border);
-    background: #0f1115;
+    background: var(--bg);
     color: var(--text);
     font-size: 13px;
     font-family: inherit;
@@ -735,13 +761,15 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
 
 <header>
   <div class="brand">
-    <div class="brand-mark">W</div>
-    <div class="brand-text">
-      <strong>Wolf Clan</strong>
-      <span>Lifesteal leaderboard</span>
-    </div>
+    <strong>Wolf Clan</strong>
+    <span>Lifesteal leaderboard</span>
   </div>
   <div class="header-actions">
+    <div class="theme-controls">
+      <div class="swatch-row" id="swatchRow"></div>
+      <button id="modeToggle" class="mode-toggle">Dark</button>
+    </div>
+
     <span id="statusPill" class="status-pill">
       <span class="status-dot"></span>
       <span id="statusLabel">Regular mode</span>
@@ -760,6 +788,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
 <main>
   <h1 id="leaderboardTitle">Total Lifesteal Kills</h1>
   <p class="subtitle" id="leaderboardSubtitle">Updated automatically from ArchMC. Refreshes roughly once a minute.</p>
+  <p class="clan-total" id="clanTotal"></p>
 
   <div class="panel">
     <h2 id="panelHeading">Standings</h2>
@@ -816,6 +845,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
   const leaderboardTitle = el("leaderboardTitle");
   const leaderboardSubtitle = el("leaderboardSubtitle");
   const panelHeading = el("panelHeading");
+  const clanTotalEl = el("clanTotal");
 
   const loginModal = el("loginModal");
   const loginError = el("loginError");
@@ -856,11 +886,15 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     bars.innerHTML = "";
     if (!rows.length) {
       emptyState.classList.remove("hidden");
+      clanTotalEl.textContent = "";
       return;
     }
     emptyState.classList.add("hidden");
 
-    const max = Math.max(1, ...rows.map((r) => r.kills));
+    // Bar width is each member's share of the clan's combined total
+    // (kills summed across all members), not just scaled to the top player.
+    const clanTotal = rows.reduce((sum, r) => sum + r.kills, 0);
+    clanTotalEl.innerHTML = "Clan total: <strong>" + clanTotal + "</strong> kills across " + rows.length + " member" + (rows.length === 1 ? "" : "s");
 
     rows.forEach((row, i) => {
       const wrap = document.createElement("div");
@@ -874,13 +908,15 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
       track.className = "bar-track";
       const fill = document.createElement("div");
       fill.className = "bar-fill";
-      const pct = Math.max(2, Math.round((row.kills / max) * 100));
-      fill.style.width = pct + "%";
+      const sharePct = clanTotal > 0 ? (row.kills / clanTotal) * 100 : 0;
+      const widthPct = row.kills > 0 ? Math.max(2, sharePct) : 0;
+      fill.style.width = widthPct + "%";
       track.appendChild(fill);
 
       const value = document.createElement("div");
       value.className = "bar-value";
-      value.textContent = row.kills;
+      const shareLabel = clanTotal > 0 ? sharePct.toFixed(1) + "%" : "0%";
+      value.innerHTML = row.kills + ' <span class="bar-share">(' + shareLabel + ")</span>";
 
       wrap.appendChild(name);
       wrap.appendChild(track);
@@ -1041,6 +1077,69 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     }
   });
   newMemberInput.addEventListener("keydown", (e) => { if (e.key === "Enter") addMemberBtn.click(); });
+
+  // ---- Theme ----
+  const ACCENTS = [
+    { name: "blue", value: "#3b5bdb" },
+    { name: "green", value: "#2f9e5c" },
+    { name: "red", value: "#c23b52" },
+    { name: "orange", value: "#c9720f" },
+    { name: "purple", value: "#7048c2" },
+  ];
+  const THEME_KEY = "wolfclan_theme";
+  const swatchRow = el("swatchRow");
+  const modeToggle = el("modeToggle");
+
+  function loadThemePrefs() {
+    try {
+      const raw = localStorage.getItem(THEME_KEY);
+      if (!raw) return { mode: "light", accent: ACCENTS[0].value };
+      const parsed = JSON.parse(raw);
+      return {
+        mode: parsed.mode === "dark" ? "dark" : "light",
+        accent: typeof parsed.accent === "string" ? parsed.accent : ACCENTS[0].value,
+      };
+    } catch (e) {
+      return { mode: "light", accent: ACCENTS[0].value };
+    }
+  }
+
+  function saveThemePrefs(prefs) {
+    try { localStorage.setItem(THEME_KEY, JSON.stringify(prefs)); } catch (e) { /* ignore */ }
+  }
+
+  let themePrefs = loadThemePrefs();
+
+  function applyTheme() {
+    document.documentElement.setAttribute("data-theme", themePrefs.mode);
+    document.documentElement.style.setProperty("--accent", themePrefs.accent);
+    modeToggle.textContent = themePrefs.mode === "dark" ? "Dark" : "Light";
+    [...swatchRow.children].forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.color === themePrefs.accent);
+    });
+  }
+
+  ACCENTS.forEach((a) => {
+    const btn = document.createElement("button");
+    btn.className = "swatch";
+    btn.style.background = a.value;
+    btn.dataset.color = a.value;
+    btn.title = a.name;
+    btn.addEventListener("click", () => {
+      themePrefs.accent = a.value;
+      saveThemePrefs(themePrefs);
+      applyTheme();
+    });
+    swatchRow.appendChild(btn);
+  });
+
+  modeToggle.addEventListener("click", () => {
+    themePrefs.mode = themePrefs.mode === "dark" ? "light" : "dark";
+    saveThemePrefs(themePrefs);
+    applyTheme();
+  });
+
+  applyTheme();
 
   // ---- Boot ----
   (async function init() {
