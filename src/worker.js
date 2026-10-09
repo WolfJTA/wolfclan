@@ -933,7 +933,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
   function applyMode(mode) {
     isRecording = mode === "recording";
     statusPill.classList.toggle("recording", isRecording);
-    statusLabel.textContent = isRecording ? "Recording" : "Regular mode";
+    statusLabel.textContent = isRecording ? "Recording" : "hhi if you see this :D";
     leaderboardTitle.textContent = isRecording ? "Kills leaderboard for CO-OWNER!" : "Total Lifesteal Kills";
     panelHeading.textContent = isRecording ? "Standings — new kills since recording started" : "Standings — all-time";
     leaderboardSubtitle.textContent = isRecording
