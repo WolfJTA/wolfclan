@@ -1050,7 +1050,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     statusPill.classList.toggle("recording", isRecording);
     statusLabel.textContent = isRecording ? "Recording" : "hhi if you see this :D";
     leaderboardTitle.textContent = isRecording ? "Kills leaderboard for CO-OWNER!" : "Total Lifesteal Kills";
-    panelHeading.textContent = isRecording ? "Standings — new kills since recording started" : "Standings — all-time";
+    panelHeading.textContent = isRecording ? "Standings" : "Standings — all-time";
     leaderboardSubtitle.textContent = isRecording
       ? "Check your kills here, and on October 24, 6 PM Eastern time, The #1 new kills will get co owner for a month."
       : "Updated from ArchMC when the page loads. Reload to refresh.";
