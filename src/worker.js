@@ -10,6 +10,12 @@
  *    triggered by incoming requests rather than a cron trigger)
  *  - Serve current stats (kills or recording-mode deltas) to everyone
  *
+ * The frontend only calls /api/stats on page load and right after an owner
+ * action (add/remove member, start/stop recording) — there is no background
+ * auto-refresh, so visitors reload the page to see newer numbers. The
+ * server-side ~60s poll throttle above still protects the ArchMC API from
+ * being hit too often when many people load the page close together.
+ *
  * D1 database binding expected: env.DB
  *
  * Schema (see schema.sql):
@@ -888,7 +894,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
 
 <main>
   <h1 id="leaderboardTitle">Lifesteal Kills</h1>
-  <p class="subtitle" id="leaderboardSubtitle">Updated automatically from ArchMC. Refreshes roughly once a minute.</p>
+  <p class="subtitle" id="leaderboardSubtitle">Updated from ArchMC when the page loads. Reload to refresh.</p>
   <p class="clan-total" id="clanTotal"></p>
 
   <div class="panel">
@@ -1047,7 +1053,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     panelHeading.textContent = isRecording ? "Standings — new kills since recording started" : "Standings — all-time";
     leaderboardSubtitle.textContent = isRecording
       ? "Check your kills here, and on October 24, 6 PM Eastern time, The #1 new kills will get co owner for a month."
-      : "Refreshes roughly once a minute, or reload to refresh.";
+      : "Updated from ArchMC when the page loads. Reload to refresh.";
     recordBtn.textContent = isRecording ? "Stop Recording" : "Start Recording";
   }
 
@@ -1268,10 +1274,13 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
   applyTheme();
 
   // ---- Boot ----
+  // Stats are only fetched here, on initial page load, plus right after an
+  // owner action (add/remove member, start/stop recording) so the owner
+  // sees immediate feedback. No background polling — visitors need to
+  // reload the page to see newer numbers.
   (async function init() {
     await refreshSession();
     await refreshStats();
-    setInterval(refreshStats, 60 * 1000);
   })();
 })();
 </script>
