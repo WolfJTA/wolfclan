@@ -2,6 +2,16 @@ name = "wolfclan"
 main = "src/worker.js"
 compatibility_date = "2026-10-01"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "wolf"
+database_id = "7b2c38e5-058c-483a-851b-0db9bfc716c0"
+
+# Temporary: only needed to run the one-time "Migrate from KV" button once.
+# Keep this pointed at your EXISTING KV namespace (the one you already set
+# up, binding name "wolfclan" from before). Remove this whole block (and
+# redeploy) once the migration has run successfully — D1 is the only
+# storage the app uses going forward.
 [[kv_namespaces]]
 binding = "wolfclan"
 id = "e83a12e9370b4e769bc626f3a98748b9"
