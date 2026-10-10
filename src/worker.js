@@ -1008,7 +1008,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     // Bar width is each member's share of the clan's combined total
     // (kills summed across all members), not just scaled to the top player.
     const clanTotal = rows.reduce((sum, r) => sum + r.kills, 0);
-    clanTotalEl.innerHTML = "Clan total: <strong>" + clanTotal + "</strong> kills across " + rows.length + " member" + (rows.length === 1 ? "" : "s");
+    clanTotalEl.innerHTML = "Clan total: <strong>" + clanTotal + "</strong> kills across " + rows.length + " member" + "refresh to update" + (rows.length === 1 ? "" : "s");
 
     rows.forEach((row, i) => {
       const wrap = document.createElement("div");
