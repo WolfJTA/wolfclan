@@ -1052,7 +1052,7 @@ const HTML_PAGE = String.raw`<!DOCTYPE html>
     leaderboardTitle.textContent = isRecording ? "Kills leaderboard for CO-OWNER!" : "Total Lifesteal Kills";
     panelHeading.textContent = isRecording ? "Standings" : "Standings — all-time";
     leaderboardSubtitle.textContent = isRecording
-      ? "Check your kills here, and on October 24, 6 PM Eastern time, The #1 new kills will get co owner for a month."
+      ? "Check your kills here, and on October 17, 12 PM Eastern time, The #1 new kills will get co owner for a month."
       : "Updated from ArchMC when the page loads. Reload to refresh.";
     recordBtn.textContent = isRecording ? "Stop Recording" : "Start Recording";
   }
